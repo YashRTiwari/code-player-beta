@@ -1,0 +1,211 @@
+<html>
+    
+    <head>
+        <title></title>
+        
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+        
+        <link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+        
+        <script src="jquery-ui/jquery-ui.js"></script>
+        
+        <style type="text/css">
+        
+            body{
+                
+                background: #5CC020;
+            }
+            #title-area{
+                
+                background: #7AD445;
+                width: 100%;
+                height: 180px;
+                border-radius: 30px;
+            }
+            #title{
+                
+                font-size: 150px;
+                font-family: Asap;
+                font-weight: bolder;
+                color: white;
+                
+                position: relative;
+                top: -20px;
+                left: 20px;
+                
+            }
+            #image{
+                
+                width:180px;
+                position: relative;
+                top: 10px;
+                left: 20px;
+            }
+            textarea{
+                
+                resize: none;
+                color: white;
+                background: #3F9800;
+                
+                position: relative;
+                top: -16px;
+                left: -19px;
+                min-height: 400px;
+                min-width: 400px;
+                padding: 5px;
+            }
+            
+            #tabs{
+                
+                width: 30%;
+                height: 80%;
+                
+                margin-top: 20px;
+                padding: 2px !important; 
+                border: none;
+                background-color: #5CC020 !important;
+                
+                float: left;
+                
+               min-height: 400px;
+                min-width: 400px;
+                
+            }
+            ul{
+                
+                background-color: #5CC020 !important;
+                border: none !important;
+
+            }
+            li{
+                
+                background-color: #56F72B !important;
+            }
+            a{
+                font-weight: bolder;
+                font-size: 120%;
+            }
+            #output{
+                
+                float: left;
+                margin-top: 70px;
+                margin-left: 20px;
+                
+                background: white;
+                padding: 5px;
+                
+                width: 60%;
+                
+            }
+            
+            #ground{
+                
+                width: 100%;
+                height: 100%;
+            }
+            
+            iframe{
+                
+                resize: both;
+            }
+            
+            
+        </style>
+    </head>
+    
+    <body>
+        
+        <div id="title-area">
+            
+            <img src="Images/web2.jpg" id="image">
+        
+            <span id="title">Web Coder...</span>
+        
+        </div>
+        
+        <div id="ground" >
+        
+            
+            <div id="tabs"  style="background: none repeat scroll 0% 0% #1C2B00;">
+          
+            <ul>
+                <li><a href="#tabs-1"> HTML</a></li>
+                <li><a href="#tabs-2">CSS</a></li>
+                <li><a href="#tabs-3">Javascript</a></li>
+            </ul>
+          
+            <div id="tabs-1">
+                    
+                <textarea id="html-area"></textarea>
+                
+            </div>
+          
+            <div id="tabs-2">
+
+                <textarea id="css-area"></textarea>
+          
+            </div>
+          
+            <div id="tabs-3">
+
+                <textarea id="javascript-area"></textarea>
+
+            </div>
+        </div>
+        
+        <iframe id="output"></iframe>
+        
+        </div>
+        
+        
+        
+        <script type="text/javascript">
+            
+            function update(){
+                
+                var cssConent = "<html><head><style type='text/css'>"+$("#css-area").val() +"</style></head><body>";
+                var htmlContent = $("#html-area").val()+"</body></html>";
+                
+                $("#output").contents().find("html").html(cssConent+htmlContent);
+                
+                document.getElementById("output").contentWindow.eval($("#javascript-area").val());
+                //runs on main wndow not on iframe
+                //eval($("#javascript-area").val());
+            }
+            
+            $("#tabs").tabs();
+            
+             $("#tabs").draggable({ containment: "parent" });
+            
+            $("#tabs").resizable({alsoResize:"textarea"});
+            
+            
+             $("#output").draggable({iframeFix:true, containment: "parent"});
+            
+            $("#tabs").tabs().find( ".ui-tabs-nav" ).sortable({
+              axis: "x",
+              stop: function() {
+                tabs.tabs( "refresh" );
+              }
+            });
+            
+            $("textarea").width($("#tabs").width() -5);
+            
+            $("textarea").height($("#tabs").height() -70);
+            
+             $("#output").height($(window).height() -260);
+            
+            
+            update();
+            //on change of content
+            $("textarea").on("change keyup paste", function(){
+                 update();
+            }); 
+            
+            
+        </script>
+        
+    </body>
+
+</html>
